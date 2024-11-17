@@ -7,42 +7,52 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #f0f2f5;
             margin: 0;
-            padding: 20px;
-        }
-
-        h1 {
-            color: #333;
-            font-size: 36px;
-        }
-
-        p {
-            color: #555;
-            font-size: 18px;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .container {
             background-color: white;
-            padding: 20px;
+            padding: 2rem;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             max-width: 800px;
-            margin: 0 auto;
+            width: 90%;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #1a1a1a;
+            font-size: 2.25rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            color: #4a4a4a;
+            font-size: 1.125rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
         }
 
         button {
-            padding: 10px 20px;
-            margin: 10px 0;
-            background-color: #007bff;
+            background-color: #0066cc;
             color: white;
             border: none;
-            border-radius: 5px;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-size: 1rem;
             cursor: pointer;
+            transition: background-color 0.2s ease;
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #0052a3;
         }
     </style>
 </head>
@@ -61,14 +71,15 @@
         }
 
         function navigateDOM(element, callback) {
-            const nodeContent = element.firstChild ? element.firstChild.nodeValue.trim() : 'Пусто';
+            const nodeContent = element.firstChild ? element.firstChild.nodeValue?.trim() || 'Пусто' : 'Пусто';
             const proceed = confirm(`Содержимое узла: "${nodeContent}"\nПродвинуться к следующему узлу?`);
+            
             if (proceed) {
                 if (element.firstElementChild) {
                     callback(element.firstElementChild, callback);
                 } else {
                     const goBack = confirm('Достигнут конец. Хотите вернуться назад?');
-                    if (goBack) {
+                    if (goBack && element.parentElement) {
                         callback(element.parentElement, callback);
                     }
                 }
