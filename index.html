@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Демонстрация навигации по DOM</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 36px;
+        }
+
+        p {
+            color: #555;
+            font-size: 18px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px 0;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Добро пожаловать на мой сайт!</h1>
+        <p>Этот сайт демонстрирует использование HTML, CSS и JavaScript на одной странице.</p>
+        <p>Нажмите кнопку ниже для взаимодействия с сайтом.</p>
+        <button onclick="startNavigation()">Начать навигацию по DOM</button>
+    </div>
+
+    <script>
+        function startNavigation() {
+            alert("Вы начали навигацию по DOM!");
+            navigateDOM(document.body, navigateDOM);
+        }
+
+        function navigateDOM(element, callback) {
+            const nodeContent = element.firstChild ? element.firstChild.nodeValue.trim() : 'Пусто';
+            const proceed = confirm(`Содержимое узла: "${nodeContent}"\nПродвинуться к следующему узлу?`);
+            if (proceed) {
+                if (element.firstElementChild) {
+                    callback(element.firstElementChild, callback);
+                } else {
+                    const goBack = confirm('Достигнут конец. Хотите вернуться назад?');
+                    if (goBack) {
+                        callback(element.parentElement, callback);
+                    }
+                }
+            } else {
+                alert('Завершаем работу.');
+            }
+        }
+    </script>
+</body>
+</html>
